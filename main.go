@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -47,7 +49,16 @@ func main() {
 		os.Exit(1)
 	}
 	storage := storage.NewStorage(store)
-	router := exampleop.SetupServer(issuer, storage, logger, false)
+	// generate random key
+	key := make([]byte, 32)
+	_, err = rand.Read(key)
+	if err != nil {
+		logger.Error("cannot generate random key", "error", err)
+		os.Exit(1)
+	}
+	keyStr := hex.EncodeToString(key)
+
+	router := exampleop.SetupServer(issuer, keyStr, storage, logger, false)
 
 	server := &http.Server{
 		Addr:    ":" + cfg.Port,
