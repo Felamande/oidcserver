@@ -31,10 +31,10 @@ var counter atomic.Int64
 // SetupServer creates an OIDC server with Issuer=http://localhost:<port>
 //
 // Use one of the pre-made clients in storage/clients.go or register a new one.
-func SetupServer(issuer string, storage Storage, logger *slog.Logger, wrapServer bool, extraOptions ...op.Option) chi.Router {
+func SetupServer(issuer string, keyk string, storage Storage, logger *slog.Logger, wrapServer bool, extraOptions ...op.Option) chi.Router {
 	// the OpenID Provider requires a 32-byte key for (token) encryption
 	// be sure to create a proper crypto random key and manage it securely!
-	key := sha256.Sum256([]byte("test"))
+	key := sha256.Sum256([]byte(keyk))
 
 	router := chi.NewRouter()
 	router.Use(logging.Middleware(
@@ -122,7 +122,7 @@ func newOP(storage op.Storage, issuer string, key [32]byte, logger *slog.Logger,
 	handler, err := op.NewOpenIDProvider(issuer, config, storage,
 		append([]op.Option{
 			//we must explicitly allow the use of the http issuer
-			op.WithAllowInsecure(),
+			// op.WithAllowInsecure(),
 			// as an example on how to customize an endpoint this will change the authorization_endpoint from /authorize to /auth
 			op.WithCustomAuthEndpoint(op.NewEndpoint("auth")),
 			// Pass our logger to the OP
