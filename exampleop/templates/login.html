@@ -4,26 +4,81 @@
     <head>
         <meta charset="UTF-8">
         <title>Login</title>
-    </head>
-    <body style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <form method="POST" action="/login/username" style="height: 200px; width: 200px;">
-
-            <input type="hidden" name="id" value="{{.ID}}">
-
-            <div>
-                <label for="username">Username:</label>
-                <input id="username" name="username" style="width: 100%">
-            </div>
-
-            <div>
-                <label for="password">Password:</label>
-                <input id="password" name="password" style="width: 100%">
-            </div>
-
-            <p style="color:red; min-height: 1rem;">{{.Error}}</p>
-
-            <button type="submit">Login</button>
-        </form>
-    </body>
-</html>`
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                background: linear-gradient(to right, #f0f2f0, #e0e0e0); /* Light gradient background */
+            }
+            form {
+                background-color: #ffffff;
+                padding: 30px; /* Increased padding */
+                border-radius: 12px; /* More rounded corners */
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+                width: 350px; /* Slightly wider form */
+                text-align: center; /* Center align text in form */
+            }
+            h2 {
+                margin-top: 0;
+                color: #333;
+            }
+            div {
+                margin-bottom: 20px; /* Increased margin */
+                text-align: left; /* Align labels to the left */
+            }
+            label {
+                display: block;
+                margin-bottom: 8px; /* Increased margin */
+                font-weight: bold;
+                color: #555; /* Darker label color */
+            }
+            input[type="text"],
+            input[type="password"] {
+                width: calc(100% - 16px); /* Account for padding and border */
+                padding: 10px; /* Increased padding */
+                border: 1px solid #ccc; /* Lighter border */
+                border-radius: 6px; /* Slightly more rounded inputs */
+                box-sizing: border-box;
+                font-size: 16px; /* Slightly larger font size */
+            }
+            button {
+                background-color: #007bff;
+                color: white;
+                padding: 12px 20px; /* Increased button padding */
+                border: none;
+                border-radius: 6px; /* Slightly more rounded button */
+                cursor: pointer;
+                font-size: 18px; /* Larger font size for button */
+                transition: background-color 0.3s ease; /* Smooth hover transition */
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            .error {
+                color: #d44a4a; /* More distinct error color */
+                min-height: 1rem;
+                margin-top: 5px; /* Add margin above error message */
+            }
+        </style>
+   </head>
+   <body>
+       <form method="POST" action="/login/username">
+           <h2>Login</h2> 
+           <input type="hidden" name="id" value="{{.ID}}">
+           <div>
+               <label for="username">Username:</label>
+               <input type="text" id="username" name="username">
+           </div>
+           <div>
+               <label for="password">Password:</label>
+               <input type="password" id="password" name="password" autocomplete="current-password">
+           </div>
+           <p class="error">{{.Error}}</p>
+           <button type="submit">Login</button>
+       </form>
+   </body>
+</html>
 {{- end }}
